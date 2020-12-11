@@ -7,6 +7,7 @@ from datetime import datetime
 logger_config = {}
 initialized = False
 
+# convert to string from seconds
 def strfseconds(seconds):
     hr = int(seconds/3600)
     min = int((seconds-hr*3600)/60)
@@ -19,10 +20,15 @@ class LogLevel(Enum):
     ERROR = 20
     WARNING = 15
 
-def get_log_dir():
-    path = os.path.join(logger_config['log_path'], 'plog')
+def make_dir(path):
     if not os.path.exists(path):
         os.makedirs(path)
+
+def get_log_dir():
+    path = os.path.join(logger_config['log_path'], 'plog')
+    make_dir(path)
+    path = os.path.join(path, logger_config['name'])
+    make_dir(path)
 
     return path
 
@@ -52,7 +58,7 @@ def error(*args, **kwargs):
 def warning(*args, **kwargs):
     add_record(LogLevel.WARNING, *args, **kwargs)
 
-def initialize(name, level='INFO', log_path = None):
+def init(name, level='INFO', log_path = None):
     
     global initialized
 
@@ -72,7 +78,7 @@ def initialize(name, level='INFO', log_path = None):
     path = get_log_dir()
     path = os.path.join(path, datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
     os.makedirs(path)
-    logger_config['log_file'] = os.path.join(path, logger_config['name'] + '.txt')
+    logger_config['log_file'] = os.path.join(path, 'log.txt')
     logger_config['_log_file'] = open(logger_config['log_file'], "a")
     
     return None
@@ -84,7 +90,7 @@ def done():
 
 
 if __name__ == "__main__":
-    initialize('log_test')
+    init('log_test')
     info('add info')
     warning('add error', 'add error')
     debug('dont add this')
