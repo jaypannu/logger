@@ -1,3 +1,3 @@
 # logger
 
-a simple logger to help speed of recording
+a simple logger to help speed up recording and printing
