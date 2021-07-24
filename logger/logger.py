@@ -1,4 +1,3 @@
-
 from enum import Enum
 import os
 import time
@@ -25,7 +24,7 @@ def make_dir(path):
         os.makedirs(path)
 
 def get_log_dir():
-    path = os.path.join(logger_config['log_path'], 'plog')
+    path = os.path.join(logger_config['log_path'], 'log')
     make_dir(path)
     path = os.path.join(path, logger_config['name'])
     make_dir(path)
